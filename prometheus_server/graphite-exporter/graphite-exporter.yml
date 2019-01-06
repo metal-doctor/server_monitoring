@@ -1,0 +1,35 @@
+﻿mappings:
+- match: telegraf\.(\w+)\.(\w+)\.([\w-]+);host=(.*);instance=(.*);objectname=(.*)
+  match_type: regex
+  name: "$3"
+  labels:
+    client: "$1"
+    measurement: "$2"
+    host: "$4"
+    instance: "$5"
+    objectname: "$6"
+- match: telegraf\.(\w+)\.(\w+)\.Avg\.([\w-]+);host=(.*);instance=(.*);objectname=(.*)
+  match_type: regex
+  name: "Avg${3}"
+  labels:
+    client: "$1"
+    measurement: "$2"
+    host: "$4"
+    instance: "$5"
+    objectname: "$6"
+- match: telegraf\.(\w+)\.(\w+)\.([\w-]+);host=(.*);objectname=(.*)
+  match_type: regex
+  name: "$3"
+  labels:
+    client: "$1"
+    measurement: "$2"
+    host: "$4"
+    objectname: "$5"
+- match: telegraf\.(\w+)\.(\w+)\.Avg\.([\w-]+);host=(.*);objectname=(.*)
+  match_type: regex
+  name: "Avg${3}"
+  labels:
+    client: "$1"
+    measurement: "$2"
+    host: "$4"
+    objectname: "$5"

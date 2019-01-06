@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ./prometheus/data:/etc/prometheus/data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/etc/prometheus/data'
+      - '--storage.tsdb.retention=30d'
+    ports:
+      - "9090:9090"
+
+  graphite-exporter:
+    image: prom/graphite-exporter:latest
+    container_name: graphite-exporter
+    volumes:
+      - ./graphite-exporter/graphite-exporter.yml:/etc/graphite-exporter/graphite-exporter.yml
+    command:
+      - '--graphite.mapping-config=/etc/graphite-exporter/graphite-exporter.yml'
+      - '--graphite.sample-expiry=60m'
+      - '--graphite.mapping-strict-match'
+    ports:
+      - "9108:9108"
+      - "9109:9109"
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager/alertmanager.yml:/alertmanager/alertmanager.yml
+      - ./alertmanager/data:/alertmanager/data
+    command:
+      - '--config.file=/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager/data'
+    ports:
+      - "9093:9093"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    # environment:
+    #   - GF_SERVER_DOMAIN=your-server.com
+    #   - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
+    volumes:
+      # - ./grafana/defaults.ini:/usr/share/grafana/conf/defaults.ini
+      - ./grafana/grafana-storage:/var/lib/grafana
+    ports:
+      - "3000:3000"
+
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./nginx/cert:/etc/nginx/cert
+  #   ports:
+  #     - "443:443"
+  #     - "49109:49109"

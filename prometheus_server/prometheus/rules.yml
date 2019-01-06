@@ -1,0 +1,25 @@
+groups:
+- name: test-group
+  rules:
+  - alert: Percent_Processor_Time
+    expr: Percent_Processor_Time > 50
+    for: 5m
+    labels:
+      severity: critical
+      alertname: "Percent_Processor_Time"
+    annotations:
+      description: "Percent_Processor_Time for {{$labels.host}} is {{$value}}"
+  - alert: Available_GBytes
+    expr: Available_MBytes/1024 < 2
+    labels:
+      severity: critical
+      alertname: "Available_GBytes"
+    annotations:
+      description: "Available_GBytes for {{$labels.host}} is {{$value}}"
+  - alert: Percent_Free_Space
+    expr: Percent_Free_Space < 10
+    labels:
+      severity: critical
+      alertname: "Percent_Free_Space"
+    annotations:
+      description: "Percent_Free_Space for {{$labels.host}} {{$labels.exported_instance}} is {{$value}}"
