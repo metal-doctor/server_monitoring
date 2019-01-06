@@ -52,6 +52,11 @@
   `docker-compose restart nginx`  
 К grafana можно подключиться по адресу https://your-server.com/grafana.
 
+При использовании релизов с включенным реверс прокси (с суффиксом WithReverseProxy) для начала использования достаточно настроить:  
+  - В конфигурационном файле telegraf/telegraf.conf в разделе outputs.graphite раскомментировать настройку insecure_skip_verify = true.
+После этого можно отправлять сообщения с показателями производительности на внешний адрес по порту 49109.
+  - В docker compose файле для сервиса grafana в разделе environment заменить your-server на внешний адрес и в конфигурационном файле nginx/nginx.conf в секции http заменить параметр server_name c your-server.com на внешний адрес.
+
 ## Описание результата
 Запущены сервисы:
   - prometheus:9090 - выполнение и отладка запросов к prometheus,
