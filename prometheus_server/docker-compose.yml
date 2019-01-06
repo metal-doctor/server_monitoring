@@ -44,21 +44,21 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    # environment:
-    #   - GF_SERVER_DOMAIN=your-server.com
-    #   - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
+    environment:
+      - GF_SERVER_DOMAIN=your-server.com
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
     volumes:
       # - ./grafana/defaults.ini:/usr/share/grafana/conf/defaults.ini
       - ./grafana/grafana-storage:/var/lib/grafana
     ports:
       - "3000:3000"
 
-  # nginx:
-  #   image: nginx:latest
-  #   container_name: nginx
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  #     - ./nginx/cert:/etc/nginx/cert
-  #   ports:
-  #     - "443:443"
-  #     - "49109:49109"
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/cert:/etc/nginx/cert
+    ports:
+      - "443:443"
+      - "49109:49109"
