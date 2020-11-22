@@ -50,7 +50,8 @@
   `docker-compose up -d grafana`  
 Перезапустить сервис nginx:  
   `docker-compose restart nginx`  
-К grafana можно подключиться по адресу https://your-server.com/grafana.
+Не из локальной сети к grafana можно подключиться по адресу https://your-server.com/grafana.
+Из локальной сети к grafana можно подключиться по адресу https://your-server/grafana.
 
 При использовании релизов с включенным реверс прокси (с суффиксом with_reverse_proxy) для начала использования достаточно настроить:  
   - В конфигурационном файле telegraf/telegraf.conf в разделе outputs.graphite раскомментировать настройку insecure_skip_verify = true.
