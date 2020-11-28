@@ -122,3 +122,20 @@ telegraf
   `docker-compose exec prometheus bash`  
   или  
   `docker-compose exec prometheus sh`
+
+## Запуск в режиме сервиса
+Для запуска всех используемых приложений как сервисов необходимо:
+1. В файле docker-compose-app.service в параметре WorkingDirectory указать каталог, в котором расположен docker-compose.yml;
+2. Скопировать файл docker-compose-app.service в каталог /etc/systemd/system/ (для debian);
+3. Включить службу:  
+  `systemctl enable docker-compose-app`  
+
+Перед запуском службы нужно удалить все контейнеры  
+  `docker-compose down`  
+проверить результат  
+  `docker-compose ps`
+
+Для просмотра последней страницы лога:  
+  `journalctl -xe`  
+или для просмотра всего лога:  
+  `journalctl -x`
